@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="styles.css"> Link to external CSS file -->
+    <title>Hawker Licensing System</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script>
+        function updateDiv(button) {
+            const buttonId = button.id
+            fetch(`/get-content/?my_variable=${encodeURIComponent(buttonId)}`)
+                .then(response => response.text())  // Use .text() to handle HTML
+                .then(data => {
+                    document.getElementById('login').innerHTML = data;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Hawker Licensing System</h1>
+    </header>
+    {% block content %}
+    {% endblock content %}
+    <footer>
+        <p>&copy; 2025 Your Name</p>
+    </footer>
+</body>
+</html>

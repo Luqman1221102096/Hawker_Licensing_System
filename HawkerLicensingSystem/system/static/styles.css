@@ -1,0 +1,127 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    color: #333;
+}
+header {
+    font-style: italic;
+    background-color: #002f80;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+/* Container for both sections */
+.container {
+    display: flex;
+    gap: 300px; /* Space between the two sections */
+    align-items: flex-start; /* Align items to the top */
+
+}
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 0.1rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+.button-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0px; /* Space between buttons */
+    align-items: flex-start; /* Align buttons to the left */
+}
+.button {
+    font-style: italic;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    background-color: #d1d1d1;
+    color: #4d4d4d;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 30px; /* Increase font size */
+    width: 300px; /* Make the buttons wider */
+    height: 102px;
+}
+.button:hover {
+    background-color: #023a9c;
+    color: white;
+}
+.login-form {
+    width: 400px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.login-form h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+.login-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: white;
+    color: black;
+}
+
+.continue-button{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.continue-button:hover {
+    background-color: white;
+    color: black;
+}
+
+.checkBoxText{
+    display: inline-flex;
+    flex-direction: row;
+    font-size: 10px;
+    color: #b5b5b5;
+    align-items: flex-start;
+    padding: 0;
+}

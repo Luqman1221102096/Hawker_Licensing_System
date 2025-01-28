@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="button-column">
+        <button class="button" id="Register" onclick="updateDiv(this)">Register New <br> Hawker Account</button>
+        <button class="button" id="DataAdmin" onclick="updateDiv(this)">Data Admin</button>
+        <button class="button" id="Inspector" onclick="updateDiv(this)">Inspector</button>
+        <button class="button" id="Manager" onclick="updateDiv(this)">Manager</button>
+        <button class="button" id="Hawker" onclick="updateDiv(this)">Hawker</button>
+    </div>
+    <div class="login-form" id="login">
+        <h2 style="text-align: center;">Select user or register a new hawker account</h2>
+    </div>
+</div>
+{% endblock content %}
