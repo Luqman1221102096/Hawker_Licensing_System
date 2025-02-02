@@ -1,5 +1,6 @@
 <h2>Register</h2>
-<form>
+<form id="registerForm" action="{% url 'register' %}" method="post" onsubmit="register(event, this)">
+    {% csrf_token %}
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" placeholder="Username" required>                
     <label for="password">Password:</label>
@@ -7,8 +8,13 @@
     <label for="password">Password:</label>
     <input type="password" id="rePassword" name="rePassword" placeholder="Re-enter Password" required>                  
     <button type="submit" class="continue-button">Continue</button>
+    <div style="margin-top: 20px;">
+        <input type="checkbox" id="termsAndCondition" name="termsAndCondition" value="Agree" required>
+        <label for="termsAndCondition"> Agree to Terms and Conditions </label>
+    </div>
 </form>
-<div class="checkBoxText" style="margin-top: 20px;">
-    <input type="checkbox" id="termsAndCondition" name="termsAndCondition" value="Agree">
-    <label for="termsAndCondition"> Agree to Terms and Conditions </label>
-</div>
+
+<div id="registerResponse"></div>
+
+<!-- Link JavaScript -->
+<script src="script.js"></script>

@@ -1,4 +1,16 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h1> You are a pirate </h1>
+<h2 style="text-align: center; text-decoration: underline; font-weight: bold;">
+{% if user == "Hawker" %}
+Hawker DashBoard
+{% elif user == "DataAdmin" %}
+Data Admin DashBoard
+{% elif user == "Inspector" %}
+Inspector DashBoard
+{% elif user == "Manager" %}
+Manager DashBoard
+{% endif %}
+</h2>
+
 {% endblock content %}
