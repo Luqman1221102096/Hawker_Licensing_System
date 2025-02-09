@@ -10,8 +10,14 @@ header {
     background-color: #002f80;
     color: white;
     padding: 1rem;
-    text-align: center;
 }
+table, th, td {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid;
+    align-content: center;
+}
+
 /* Container for both sections */
 .container {
     display: flex;
@@ -124,4 +130,53 @@ footer {
     color: #b5b5b5;
     align-items: flex-start;
     padding: 0;
+}
+/* Luqman's additions */
+.center{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.dashBoard{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.dashBoardButton{
+    width: 250px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    font-size: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 20px;
+}
+
+.blueNav{
+    width: 250px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    background-color: #1687f7;
+    color: white;
+    font-size: 25px;
+    transition: background-color 0.3s;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.listBox{
+    background-color: #adadad;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 1250px;
 }

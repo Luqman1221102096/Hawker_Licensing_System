@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}   
+<div class="dashBoard">
+    <h2 style="text-align: center; text-decoration: underline; font-weight: bold;">
+        Removing Hawker License
+    </h2>
+    <h3 style="text-align: center; text-decoration: underline; font-weight: bold;">
+        All licenses listed have been approved
+    </h3>
+    <div class="listBox" style="overflow-y:scroll;">
+        <table>
+            <tr>
+                <th>License ID</th>
+                <th>Owner</th>
+                <th>Revoke</th>
+            </tr>
+            {% for license in licenseList %}
+                {% if license.status == "Pending" %}
+                    <tr>
+                        <td>{{ license.id }}</td>
+                        <td>{{ license.owner }}</td>
+                        <td><a href="{% url 'note' license.id %}">Revoke</a></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock content %}

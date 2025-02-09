@@ -2,6 +2,19 @@ from django.db import models
 # To read textfiles
 import os
 from django.conf import settings
+from dataclasses import dataclass
+from django.core.files.storage import FileSystemStorage
+# Struct for license information
+@dataclass
+class licenseInfo:
+    id: str = ""
+    owner: str = ""
+    status: str = ""
+    date: str = ""
+    location: str = ""
+
+class UploadedFile(models.Model):
+    file = models.FileField(upload_to='uploads/')
 
 # Create your models here.
 def getHawkers():
@@ -26,3 +39,89 @@ def registerHawker(name, password):
     f = open(os.path.join(settings.BASE_DIR, "hawkerList.txt"), "a")
     f.write(f"{name} {password}\n")
     f.close()
+
+def parse_license_info(data: str) -> licenseInfo:
+    fields = data.split(":")  # Split string by ':'
+    return licenseInfo(*fields)  # Unpack fields into the dataclass
+
+def getLicenseInfo(wantedId):
+    f = open(os.path.join(settings.BASE_DIR, "licenseList.txt"), "r")
+    li = licenseInfo()
+    id = ""
+    for line in f:
+        for i in range(len(line)):
+            if line[i] == ":":
+                id = line[:i]
+                if wantedId == id:
+                    li = parse_license_info(line)
+                    break
+    f.close()
+    return li
+            
+def getAllLicenses():
+    f = open(os.path.join(settings.BASE_DIR, "licenseList.txt"), "r")
+    licenseList = []
+    for line in f:
+        licenseList.append(parse_license_info(line))
+    f.close()
+    return licenseList
+
+def insertReport(reportText, reportImage, key_id):
+    # clears folder
+    if os.path.exists(f"Reports/{key_id}"):
+        for file in os.listdir(f"Reports/{key_id}"):
+            file_path = os.path.join(f"Reports/{key_id}", file)
+            try:
+                if os.path.isfile(file_path):
+                    os.remove(file_path)  # Delete file
+            except Exception as e:
+                print(f"Error deleting {file_path}: {e}")
+    #Adds new content
+    try:
+        os.mkdir(f"Reports/{key_id}")
+        f = open(os.path.join(settings.BASE_DIR, f"Reports/{key_id}/report.txt"), "w")
+        f.write(reportText)
+    except FileExistsError:
+        f = open(os.path.join(settings.BASE_DIR, f"Reports/{key_id}/report.txt"), "w")
+        f.write(reportText)
+    fs = FileSystemStorage(location=os.path.join(settings.BASE_DIR, f"Reports/{key_id}"))
+    filename = fs.save(reportImage.name, reportImage)
+    f.close()
+    updateLicense(key_id, "Pending")
+
+def insertNote(reportText, key_id):
+    # clears folder
+    if os.path.exists(f"Notes/{key_id}"):
+        for file in os.listdir(f"Notes/{key_id}"):
+            file_path = os.path.join(f"Notes/{key_id}", file)
+            try:
+                if os.path.isfile(file_path):
+                    os.remove(file_path)  # Delete file
+            except Exception as e:
+                print(f"Error deleting {file_path}: {e}")
+    #Adds new content
+    try:
+        os.mkdir(f"Notes/{key_id}")
+        f = open(os.path.join(settings.BASE_DIR, f"Notes/{key_id}/report.txt"), "w")
+        f.write(reportText)
+    except FileExistsError:
+        f = open(os.path.join(settings.BASE_DIR, f"Notes/{key_id}/report.txt"), "w")
+        f.write(reportText)
+    f.close()
+    updateLicense(key_id, "Revoke")
+
+def updateLicense(key_id, newStatus):
+    licenseList = getAllLicenses()
+    for license in licenseList:
+        if license.id == key_id:
+            license.status = newStatus
+            break
+    #open(os.path.join(settings.BASE_DIR, "licenseList.txt"), "w").close()#clear file
+    f = open(os.path.join(settings.BASE_DIR, "licenseList2.txt"), "a")
+    for license in licenseList:
+        f.write(f"{license.id}:{license.owner}:{license.status}:{license.date}:{license.location}")
+    f.close()
+
+def getReport(key_id):
+    if os.path.exists(f"Reports/{key_id}"):
+        f = open(os.path.join(settings.BASE_DIR, f"Reports/{key_id}/report.txt"), "r")

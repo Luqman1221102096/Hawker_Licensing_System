@@ -46,4 +46,26 @@ function register(event, form) {
         }
     })
     .catch(error => console.error("Error:", error));
-}   
+}  
+function report(event, form) {
+    alert("Script called");
+    event.preventDefault();  // Prevent form from reloading the page
+
+    let formData = new FormData(form);
+
+    fetch(form.action, {  // Use the form action URL
+        method: "POST",
+        body: formData,
+    })
+    .then(response => response.text())  
+    .then(data => {
+        if (data.includes("success")) { 
+            document.getElementById("uploadResponse").innerHTML = 
+                `<span style="color: green;">Successful upload</span>`;
+        } else {
+            document.getElementById("uploadResponse").innerHTML = 
+                `<span style="color: red;">Failed Upload</span>`;
+        }
+    })
+    .catch(error => console.error("Error:", error));
+} 

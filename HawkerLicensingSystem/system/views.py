@@ -1,7 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
-from .models import getHawkers, registerHawker
+from .models import *
+from django import template
+register = template.Library()
+
+@register.filter
+def zip_lists(a, b):
+    return zip(a, b)
+
 currentUser = {}
 # These actors have pre-existing accounts
 managers = {"Luqman" : "1234", "Law" : "1234"}
@@ -65,4 +72,43 @@ def login(request):
 def dashBoard(request):
     if request.method == "GET":
         return render(request, 'dashBoard.html', {"user" : currentUser["User"]})
+    
+def viewLicense(request):
+    licenseList = getAllLicenses()
+    return render(request, "viewLicense.html", {"licenseList" : licenseList})
 
+def revokeLicense(request):
+    licenseList = getAllLicenses()
+    return render(request, "revokeLicense.html", {"licenseList" : licenseList})
+
+def licensePage(request, key_id):
+    info = getLicenseInfo(key_id)
+    return render(request, "licensePage.html", {"info" : info})
+
+def storeReport(request, key_id):
+    if request.method == "POST":
+        reportText = request.POST.get("reportText")
+        reportImage = request.FILES.get('reportImage')
+        if reportImage:  # Only insert if an image was uploaded
+            insertReport(reportText, reportImage, key_id)
+        else:
+            return HttpResponse("Error: No image uploaded", status=400)
+    return HttpResponse("success")
+
+def note(request, key_id):
+    info = getLicenseInfo(key_id)
+    return render(request, "note.html", {"info" : info})
+
+def storeNote(request, key_id):
+    if request.method == "POST":
+        reportText = request.POST.get("reportText")
+        insertNote(reportText, key_id)
+    return HttpResponse("success")
+
+def revokeRequests(request):
+    licenseList = getAllLicenses()
+    return render(request, "revokeRequests.html", {"licenseList" : licenseList})
+
+def revokeApproval(request, key_id):
+    info = getLicenseInfo(key_id)
+    return render(request, "revokeApproval.html", {"info" : info})

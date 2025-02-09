@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="dashBoard">
+        <h1>Revoke Hawker License</h1>
+    </div>
+    <div class="container">
+        <div class="dashBoard">
+            <h3> ID : {{info.id}}</h3>
+            <h3> Owner : {{info.owner}}</h3>
+            <h3> Status : {{info.status}}</h3>
+            <h3> Date of approval : {{info.date}}</h3>
+            <h3> Location : {{info.location}}</h3>
+        </div>
+        <div class="dashBoard">
+            <form id="reportUpload" action="{% url 'storeNote' info.id %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <textarea type="text" id="reportText" name="reportText"  style="width: 400px; height:300px">Write report here</textarea>
+                <input type="submit">
+            </form>
+            <div id="uploadResponse"></div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,16 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2 style="text-align: center; text-decoration: underline; font-weight: bold;">
 {% if user == "Hawker" %}
+<h2 style="text-align: center; text-decoration: underline; font-weight: bold;">
 Hawker DashBoard
-{% elif user == "DataAdmin" %}
-Data Admin DashBoard
-{% elif user == "Inspector" %}
-Inspector DashBoard
-{% elif user == "Manager" %}
-Manager DashBoard
-{% endif %}
 </h2>
+{% elif user == "DataAdmin" %}
+
+<h2 style="text-align: center; text-decoration: underline; font-weight: bold;">
+Data Admin DashBoard
+</h2>
+{% elif user == "Inspector" %}
+<div class="dashBoard">
+    <h2 style="text-align: center; text-decoration: underline; font-weight: bold;">
+    Inspector DashBoard
+    </h2>
+    <button class="dashBoardButton" onclick="window.location.href='{% url 'viewLicense' %}';">View License</button>
+    <button class="dashBoardButton" onclick="window.location.href='{% url 'revokeLicense' %}';">Revoke License</button>
+    <button class="blueNav" onclick="window.location.href='{% url 'home' %}';">Sign out</button>
+</div>
+{% elif user == "Manager" %}
+<div class="dashBoard">
+    <h2 style="text-align: center; text-decoration: underline; font-weight: bold;">
+    Manager DashBoard
+    </h2>
+    <button class="dashBoardButton" onclick="window.location.href='{% url 'viewLicense' %}';" style="font-size: 25px;">View All Forms</button>
+    <button class="dashBoardButton" onclick="window.location.href='{% url 'revokeLicense' %}';" style="font-size: 20px;">View Validated Forms</button>
+    <button class="dashBoardButton" onclick="window.location.href='{% url 'viewLicense' %}';">Reports</button>
+    <button class="dashBoardButton" onclick="window.location.href='{% url 'revokeRequests' %}';" style="font-size: 20px;">License Revocation Approval</button>
+    <button class="blueNav" onclick="window.location.href='{% url 'home' %}';">Sign out</button>
+</div>
+{% endif %}
 
 {% endblock content %}
