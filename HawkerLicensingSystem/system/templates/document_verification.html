@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hawker Licensing System</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+    <style>
+
+        .form-container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+        }
+
+        .form-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .document-upload {
+            margin-bottom: 20px;
+        }
+
+        .document-upload label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .document-upload input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px;
+            font-size: 18px;
+            background-color: #007BFF; /* Bootstrap primary color */
+            color: white; /* White text */
+            border: none; /* Remove default border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth transition */
+            flex: 1; /* Make buttons take equal space */
+            margin: 0 10px; /* Space between buttons */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hawker Licensing System</h1>
+    </header>
+<main>
+    <div class="form-container">
+        <p>Please upload the required documents for verification.</p>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="document-upload">
+                <label for="identity_proof">Proof of Identity:</label>
+                <input type="file" id="identity_proof" name="identity_proof" accept="image/*" >
+            </div>
+
+            <div class="document-upload">
+                <label for="business_registration">Business Registration Documents:</label>
+                <input type="file" id="business_registration" name="business_registration" accept="image/*" >
+            </div>
+
+            <div class="document-upload">
+                <label for="health_certificate">Health Certificate:</label>
+                <input type="file" id="health_certificate" name="health_certificate" accept="image/*" >
+            </div>
+
+            <div class="document-upload">
+                <label for="location_permit">Location/Zoning Permit:</label>
+                <input type="file" id="location_permit" name="location_permit" accept="image/*" >
+            </div>
+        </form>
+
+            <div class="button-container">
+                <!-- Back Button -->
+                <form action="{% url 'apply_license' %}" method="get">
+                    <button type="submit" class="blue-button">Back</button>
+                </form>
+                <!-- Continue Button -->
+                <form action="{% url 'success' %}" method="get" style="flex: 1;">
+                    <button type ="submit" class="blue-button">Continue</button>
+                </form>
+            </div>
+        
+    </div>
+</main>
+    <footer>
+        <p>&copy; 2025 Luqman, Law, Long, Danysh</p>
+    </footer>
+</body>
+</html>

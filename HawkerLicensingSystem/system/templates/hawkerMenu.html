@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hawker Licensing System</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}?v={{ timestamp }}">
+    <script src="{% static 'script.js' %}"></script>
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+        }
+
+        .form-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333; /* Darker text for better readability */
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            align-items: center; /* Center buttons */
+            margin-top: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            gap: 20px; /* Space between buttons */
+            align-items: center; /* Center align buttons */
+            margin-top: 5px;
+            width: 100%; /* Ensure full width */
+        }
+
+        button {
+            padding: 12px 24px; /* Increased padding for better click area */
+            font-size: 18px;
+            background-color: #007BFF; /* Bootstrap primary color */
+            color: white; /* White text */
+            border: none; /* Remove default border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth transition */
+            min-width: 200px; /* Minimum width for buttons */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+        .black-button {
+            background-color: black;
+            color: white;
+            padding: 18px 40px;
+            font-size: 22px;
+            border: none;
+            border-radius: 30px; /* Rounded buttons */
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            min-width: 250px; /* Ensure equal width */
+            text-align: center;
+        }
+
+        .black-button:hover {
+            background-color: #333; /* Darker shade on hover */
+        }
+
+
+        .sign-out-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px; /* Space below the main buttons */
+        }
+
+        .sign-out-button {
+            background-color: #007BFF;
+            color: white;
+            padding: 18px 40px;
+            font-size: 22px;
+            border: none;
+            border-radius: 30px; /* Rounded edges */
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            min-width: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px; /* Space between icon and text */
+        }
+
+        .sign-out-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    
+</head>
+<body>
+    <header>
+        <h1>Hawker Licensing System</h1>
+    </header>
+        <div class="button-container">
+            <h2 class="center-text"><u>Hawker Menu Page</u></h2>
+            <div class="button-group">
+                
+                <!-- Apply for License Button -->
+                <form action="{% url 'apply_license' %}" method="get">
+                    <button type="submit" class="black-button">Apply for License</button>
+                </form>
+                
+                <!-- Check/Update Status Button -->
+                <form action="{% url 'check_status' %}" method="get">
+                    <button type="submit" class="black-button">Check/Update Status</button>
+                </form>
+            </div>
+
+            <div class="sign-out-container">
+                <!-- Sign Out Button -->
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="sign-out-button">⬅ Sign Out</button>
+                </form>
+            </div>
+        </div>
+
+
+    <footer>
+        <p>&copy; 2025 Luqman, Law, Long, Danysh</p>
+    </footer>
+</body>
+</html>

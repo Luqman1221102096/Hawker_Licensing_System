@@ -7,7 +7,8 @@
 {% elif user == "Manager" %}
 <h2>Manager Login</h2>
 {% endif %}
-<form id="loginForm" action="{% url 'login' %}" method="post" onsubmit="login(event, this)">
+
+<form id="loginForm" action="{% url 'login' %}" method="post">
     {% csrf_token %}
     <label for="username">Username:</label>
     <input type="text" name="username" id="username" required>
@@ -16,10 +17,10 @@
     <input type="password" name="password" id="password" required>
     <br>
     <button type="submit" class="login-button">Login</button>
-    <input style="display: none;" name="userType" id="userType" value="{{user}}">
+    <input type="hidden" name="userType" id="userType" value="{{ user }}">
 </form>
 
 <div id="loginResponse"></div>
 
-<!-- Link JavaScript -->
+<!-- Link JavaScript (Optional if you need client-side logic) -->
 <script src="script.js"></script>
