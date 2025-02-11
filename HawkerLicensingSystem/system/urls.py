@@ -17,6 +17,8 @@ urlpatterns = [
     path('storeNote/<str:key_id>/', views.storeNote, name='storeNote'),
     path('revokeRequests', views.revokeRequests, name='revokeRequests'),
     path('revokeApproval/<str:key_id>/', views.revokeApproval, name='revokeApproval'),
+    path('upload/', views.file_upload_view, name='file_upload'),
+    path('files/', views.file_list_view, name='file_list'),
 ]
 
 if settings.DEBUG:

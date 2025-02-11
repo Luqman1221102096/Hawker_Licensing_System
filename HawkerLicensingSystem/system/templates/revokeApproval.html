@@ -4,8 +4,16 @@
     <h2 style="text-align: center; text-decoration: underline; font-weight: bold;">
         Request Revoke License
     </h2>
-    <div class="listBox" style="overflow-y:scroll;">
-        
+    <div class="listBox" style="overflow-y:scroll; border-style: solid; ">
+        <h3 style="margin-bottom: 0px">Report</h3>
+        <p>{{info.name}}</p>
+        <h3>File</h3>
+        <a href="{{ info.file.url }}" target="_blank" style="margin-bottom: 50px">Open File</a>
+        <!--<embed src="{{ info.file.url }}" width="100%" height="100%">-->
     </div>
+    {% csrf_token %}
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    <button class="blueNav" id="0" onclick="AprroveRevoke(this)">Approve</button>
+    <button class="blueNav" id="-1" onclick="AprroveRevoke(this)">Disapprove</button>
 </div>
 {% endblock content %}

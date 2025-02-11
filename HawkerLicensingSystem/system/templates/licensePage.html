@@ -14,8 +14,8 @@
         <div class="dashBoard">
             <form id="reportUpload" action="{% url 'storeReport' info.id %}" method="post" enctype="multipart/form-data" onsubmit="report(event, this)">
                 {% csrf_token %}
-                <textarea type="text" id="reportText" name="reportText"  style="width: 400px; height:300px">Write report here</textarea>
-                <input type="file" id="reportImage" name="reportImage">
+                <textarea type="text" id="name" name="name"  style="width: 400px; height:300px">Write report here</textarea>
+                <input type="file" id="file" name="file">
                 <input type="submit">
             </form>
             <div id="uploadResponse"></div>

@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import JsonResponse
 from .models import *
 from django import template
+from .forms import *
 register = template.Library()
 
 @register.filter
@@ -10,6 +11,7 @@ def zip_lists(a, b):
     return zip(a, b)
 
 currentUser = {}
+interact = ''
 # These actors have pre-existing accounts
 managers = {"Luqman" : "1234", "Law" : "1234"}
 dataAdmins = {"Long" : "1234", "Muhammad" : "1234"}
@@ -37,6 +39,7 @@ def register(request):
     return HttpResponse("success")
 
 def login(request):
+    global currentUser
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -70,6 +73,7 @@ def login(request):
     return HttpResponse("Only POST requests allowed", status=405)
 
 def dashBoard(request):
+    global currentUser
     if request.method == "GET":
         return render(request, 'dashBoard.html', {"user" : currentUser["User"]})
     
@@ -87,12 +91,17 @@ def licensePage(request, key_id):
 
 def storeReport(request, key_id):
     if request.method == "POST":
-        reportText = request.POST.get("reportText")
-        reportImage = request.FILES.get('reportImage')
+        reportText = request.POST.get("name")
+        reportImage = request.FILES.get('file')
         if reportImage:  # Only insert if an image was uploaded
             insertReport(reportText, reportImage, key_id)
         else:
             return HttpResponse("Error: No image uploaded", status=400)
+        form = ReportFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            report = form.save(commit=False)  # Don't save yet
+            report.route = f"Reports/{key_id}/"  # Pass a dynamic value
+            report.save()  # Now save
     return HttpResponse("success")
 
 def note(request, key_id):
@@ -110,5 +119,36 @@ def revokeRequests(request):
     return render(request, "revokeRequests.html", {"licenseList" : licenseList})
 
 def revokeApproval(request, key_id):
-    info = getLicenseInfo(key_id)
-    return render(request, "revokeApproval.html", {"info" : info})
+    global interact
+    if request.method == 'POST':
+        if key_id == "0":
+            updateLicense(interact, "Approved Revoke")
+        elif key_id == "-1":
+            updateLicense(interact, "Active")
+        key_id = ''
+        return HttpResponse("success")
+    else:
+        interact = key_id
+        info = ReportFile.objects.filter(route=f"Reports/{key_id}/").latest('uploaded_at')
+        return render(request, "revokeApproval.html", {"info" : info})
+
+
+# tmp
+def file_upload_view(request):
+    if request.method == 'POST':
+        form = ReportFileForm(request.POST, request.FILES)
+        print(request.POST)
+        print(request.FILES)
+        if form.is_valid():
+            report = form.save(commit=False)  # Don't save yet
+            report.route = "Reports/1/"  # Pass a dynamic value
+            report.save()  # Now save
+            return redirect('file_list')
+    else:
+        form = ReportFileForm()
+
+    return render(request, 'upload.html', {'form': form})
+
+def file_list_view(request):
+    files = ReportFile.objects.all()
+    return render(request, 'file_list.html', {'files': files})

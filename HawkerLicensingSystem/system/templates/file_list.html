@@ -1,0 +1,9 @@
+<ul>
+    {% for file in files %}
+        <li>
+            <a href="{{ file.file.url }}">{{ file.name }}</a>
+            <embed src="{{ file.file.url }}" width="100%" height="100%">
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'file_upload' %}">Upload Another File</a>

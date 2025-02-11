@@ -13,8 +13,17 @@ class licenseInfo:
     date: str = ""
     location: str = ""
 
-class UploadedFile(models.Model):
-    file = models.FileField(upload_to='uploads/')
+def report_upload_path(instance, filename):
+    return f"{instance.route}{filename}"
+
+class ReportFile(models.Model):
+    name = models.CharField(max_length=255, default="Untitled")
+    route = models.CharField(max_length=255, default='Reports/')
+    file = models.FileField(upload_to=report_upload_path)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
 
 # Create your models here.
 def getHawkers():
@@ -68,9 +77,9 @@ def getAllLicenses():
 
 def insertReport(reportText, reportImage, key_id):
     # clears folder
-    if os.path.exists(f"Reports/{key_id}"):
-        for file in os.listdir(f"Reports/{key_id}"):
-            file_path = os.path.join(f"Reports/{key_id}", file)
+    if os.path.exists(f"media/Reports/{key_id}"):
+        for file in os.listdir(f"media/Reports/{key_id}"):
+            file_path = os.path.join(f"media/Reports/{key_id}", file)
             try:
                 if os.path.isfile(file_path):
                     os.remove(file_path)  # Delete file
@@ -78,22 +87,22 @@ def insertReport(reportText, reportImage, key_id):
                 print(f"Error deleting {file_path}: {e}")
     #Adds new content
     try:
-        os.mkdir(f"Reports/{key_id}")
-        f = open(os.path.join(settings.BASE_DIR, f"Reports/{key_id}/report.txt"), "w")
+        os.mkdir(f"media/Reports/{key_id}")
+        f = open(os.path.join(settings.BASE_DIR, f"media/Reports/{key_id}/report.txt"), "w")
         f.write(reportText)
     except FileExistsError:
-        f = open(os.path.join(settings.BASE_DIR, f"Reports/{key_id}/report.txt"), "w")
+        f = open(os.path.join(settings.BASE_DIR, f"media/Reports/{key_id}/report.txt"), "w")
         f.write(reportText)
-    fs = FileSystemStorage(location=os.path.join(settings.BASE_DIR, f"Reports/{key_id}"))
-    filename = fs.save(reportImage.name, reportImage)
+    #fs = FileSystemStorage(location=os.path.join(settings.BASE_DIR, f"media/Reports/{key_id}"))
+    #filename = fs.save(reportImage.name, reportImage)
     f.close()
     updateLicense(key_id, "Pending")
 
 def insertNote(reportText, key_id):
     # clears folder
-    if os.path.exists(f"Notes/{key_id}"):
-        for file in os.listdir(f"Notes/{key_id}"):
-            file_path = os.path.join(f"Notes/{key_id}", file)
+    if os.path.exists(f"media/Notes/{key_id}"):
+        for file in os.listdir(f"media/Notes/{key_id}"):
+            file_path = os.path.join(f"media/Notes/{key_id}", file)
             try:
                 if os.path.isfile(file_path):
                     os.remove(file_path)  # Delete file
@@ -101,11 +110,11 @@ def insertNote(reportText, key_id):
                 print(f"Error deleting {file_path}: {e}")
     #Adds new content
     try:
-        os.mkdir(f"Notes/{key_id}")
-        f = open(os.path.join(settings.BASE_DIR, f"Notes/{key_id}/report.txt"), "w")
+        os.mkdir(f"media/Notes/{key_id}")
+        f = open(os.path.join(settings.BASE_DIR, f"media/Notes/{key_id}/report.txt"), "w")
         f.write(reportText)
     except FileExistsError:
-        f = open(os.path.join(settings.BASE_DIR, f"Notes/{key_id}/report.txt"), "w")
+        f = open(os.path.join(settings.BASE_DIR, f"media/Notes/{key_id}/report.txt"), "w")
         f.write(reportText)
     f.close()
     updateLicense(key_id, "Revoke")
@@ -117,7 +126,7 @@ def updateLicense(key_id, newStatus):
             license.status = newStatus
             break
     #open(os.path.join(settings.BASE_DIR, "licenseList.txt"), "w").close()#clear file
-    f = open(os.path.join(settings.BASE_DIR, "licenseList2.txt"), "a")
+    f = open(os.path.join(settings.BASE_DIR, "licenseList.txt"), "w")
     for license in licenseList:
         f.write(f"{license.id}:{license.owner}:{license.status}:{license.date}:{license.location}")
     f.close()

@@ -19,11 +19,12 @@
                     <tr>
                         <td>{{ license.id }}</td>
                         <td>{{ license.owner }}</td>
-                        <td><a href="{% url 'note' license.id %}">Revoke</a></td>
+                        <td><a href="{% url 'revokeApproval' license.id %}">Revoke</a></td>
                     </tr>
                 {% endif %}
             {% endfor %}
         </table>
     </div>
 </div>
+<button style="width: 200px" class="blueNav" onclick="window.location.href='{% url 'dashBoard' %}';">back</button>
 {% endblock content %}

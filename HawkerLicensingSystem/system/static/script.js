@@ -48,7 +48,6 @@ function register(event, form) {
     .catch(error => console.error("Error:", error));
 }  
 function report(event, form) {
-    alert("Script called");
     event.preventDefault();  // Prevent form from reloading the page
 
     let formData = new FormData(form);
@@ -68,4 +67,25 @@ function report(event, form) {
         }
     })
     .catch(error => console.error("Error:", error));
+} 
+
+function AprroveRevoke(button) {
+    const buttonId = button.id
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    fetch(`/revokeApproval/${button.id}/`,{  // Use the form action URL
+        method: "POST",
+        headers: {
+            "X-CSRFToken": csrftoken,  // Include CSRF token
+            "Content-Type": "application/json",
+        },
+        credentials: "same-origin", // Ensure the request includes cookies
+    })
+    .then(response => response.text())  // Use .text() to handle HTML
+    .then(data => {
+        if (data.includes("success")) { 
+            document.getElementById("uploadResponse").innerHTML = 
+                window.location.href = "/revokeRequests"
+        }
+    })
+    .catch(error => console.error('Error:', error));
 } 
