@@ -120,9 +120,19 @@
                             <td>{{license.id}}</td>
                             <td>{{license.date}}</td>
                             <td>
+                                <form action="{% url 'view_form' %}" method="post" style="flex: 1;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="valid" value="valid">
+                                    <input type="hidden" name="id" value={{license.id}}>
                                     <button type="submit" name="action" value="valid" aria-label="Mark as valid">Valid</button>
-                                
+                                </form>
+
+                                <form action="{% url 'view_form' %}" method="post" style="flex: 1;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="valid" value="invalid">
+                                    <input type="hidden" name="id" value={{license.id}}>
                                     <button type="submit" name="action" value="invalid" aria-label="Mark as invalid">Invalid</button>
+                                </form>
                             </td>
                         </tr>
                     {% endif %}

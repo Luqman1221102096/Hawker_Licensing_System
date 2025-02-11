@@ -94,7 +94,7 @@
 
     <div class="form-container">
         <h2 class="form-title">Renew License</h2>
-        <p class="license-status">Your license has expired. Please choose a renewal option:</p>
+        <!-- <p class="license-status">Your license has expired. Please choose a renewal option:</p>-->
 
         <!-- Expired License Information in Table Format -->
         <table>
@@ -106,11 +106,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>789012</td>
-                    <td>2023-05-15</td>
-                    <td>Expired</td>
-                </tr>
+                {% for license in licenses %}
+                    {% if license.owner == username and license.status == "Expired" %}
+                        <tr>
+                            <td>{{license.id}}</td>
+                            <td>{{license.status}}</td>
+                            <td>{{license.date}}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
                 <!-- Add more rows as needed -->
             </tbody>
         </table>

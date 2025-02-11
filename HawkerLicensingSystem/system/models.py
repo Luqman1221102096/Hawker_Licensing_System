@@ -26,20 +26,6 @@ class ReportFile(models.Model):
     def __str__(self):
         return self.name
 
-class DocumentFile(models.Model):
-    name = models.CharField(max_length=255, default="Untitled")
-    name2 = models.CharField(max_length=255, default="Untitled")
-    name3 = models.CharField(max_length=255, default="Untitled")
-    name4 = models.CharField(max_length=255, default="Untitled")
-    route = models.CharField(max_length=255, default='Reports/')
-    file = models.FileField(upload_to=report_upload_path)
-    file2 = models.FileField(upload_to=report_upload_path)
-    file3 = models.FileField(upload_to=report_upload_path)
-    file4 = models.FileField(upload_to=report_upload_path)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name
 # Create your models here.
 def getHawkers():
     hawkers = {}
@@ -156,3 +142,28 @@ def addLicense(owner, location, date):
     f.write(f"{num}:{owner}:Apply:{date}:{location}\n")
     f.close()
     return num
+
+def insertAdmin(reportText, c1, c2, c3, c4, key_id):
+    # clears folder
+    if os.path.exists(f"media/Admin/{key_id}"):
+        for file in os.listdir(f"media/Admin/{key_id}"):
+            file_path = os.path.join(f"media/Admin/{key_id}", file)
+            try:
+                if os.path.isfile(file_path):
+                    os.remove(file_path)  # Delete file
+            except Exception as e:
+                print(f"Error deleting {file_path}: {e}")
+    #Adds new content
+    try:
+        os.mkdir(f"media/Admin/{key_id}")
+        f = open(os.path.join(settings.BASE_DIR, f"media/Admin/{key_id}/report.txt"), "w")
+        f.write(reportText)
+    except FileExistsError:
+        f = open(os.path.join(settings.BASE_DIR, f"media/Admin/{key_id}/report.txt"), "w")
+        f.write(reportText)
+    f.close()
+
+def getAdminReport(key_id):
+    f = open(os.path.join(settings.BASE_DIR, f"media/Admin/{key_id}/report.txt"), "r")
+    text = f.read()
+    return text

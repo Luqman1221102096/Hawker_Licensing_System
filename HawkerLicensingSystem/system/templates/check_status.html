@@ -82,6 +82,7 @@
         <h2 class="form-title">Check License Status</h2>
 
         <table>
+            
             <thead>
                 <tr>
                     <th>License Number</th>
@@ -90,16 +91,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>123456</td>
-                    <td>Active</td>
-                    <td>2025-12-31</td>
-                </tr>
-                <tr>
-                    <td>789012</td>
-                    <td>Expired</td>
-                    <td>2023-05-15</td>
-                </tr>
+                {% for license in licenses %}
+                    {% if license.owner == username %}
+                        <tr>
+                            <td>{{license.id}}</td>
+                            <td>{{license.status}}</td>
+                            <td>{{license.date}}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
                 <!-- Add more rows as needed -->
             </tbody>
         </table>

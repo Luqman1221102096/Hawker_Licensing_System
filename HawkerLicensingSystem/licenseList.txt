@@ -1,11 +1,19 @@
-1:Mark:Revoke:11/2/2003:Cyberjaya
+1:Mark:Pending:11/2/2003:Cyberjaya
 2:Lily:Revoke:2/4/2010:Kuala Lumpur 
 3:sarah:Active:23/6/2023:Alor Setar
 4:Billy:Active:22/2/2013:Bonnie Ville
-5:Nilly:Approved Revoke:22/2/2013:Bonnie Ville
+5:Nilly:Revoke:22/2/2013:Bonnie Ville
 6:Muhammaly:Approved Revoke:22/2/2011:Tapah
 7:Muhammaly:Approved Revoke:22/2/2011:Tapah
 15371:E:Active:2025-06-24:Red sea
 74300:Gey:Active:2025-01-31:Tanah rapat
-54382:2:Apply:2025-02-01:ty
+54382:2:Valid:2025-02-01:ty
 37683:q:Apply:2025-02-20:s
+567290:Mark:Active:2031-02-23:Cyberjaya
+37283:Yuna:Apply:2025-02-20:Tian
+567590:Lark:Expired:2031-02-23:Cyberjaya
+973903:Luna:Bar:2025-02-20:Tian
+973901:Lia:Pending:2025-02-20:Tian
+933901:Y:Pending:2025-02-20:Tian
+274501:Uqi:Pending:2025-02-20:Tian
+40326:Mark:Active:2025-02-26:W

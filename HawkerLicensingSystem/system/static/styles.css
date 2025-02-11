@@ -11,12 +11,6 @@ header {
     color: white;
     padding: 1rem;
 }
-table, th, td {
-    border-collapse: collapse;
-    width: 100%;
-    border: 1px solid;
-    align-content: center;
-}
 
 /* Container for both sections */
 .container {

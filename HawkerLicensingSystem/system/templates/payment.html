@@ -98,11 +98,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>789012</td>
-                    <td>2023-05-15</td>
-                    <td>Expired</td>
-                </tr>
+                {% for license in licenses %}
+                    {% if license.owner == username and license.status == "Expired" %}
+                        <tr>
+                            <td>{{license.id}}</td>
+                            <td>{{license.status}}</td>
+                            <td>{{license.date}}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
                 <!-- Add more rows as needed -->
             </tbody>
         </table>

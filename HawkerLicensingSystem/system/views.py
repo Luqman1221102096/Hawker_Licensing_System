@@ -93,7 +93,8 @@ def login(request):
 def dashBoard(request):
     global currentUser
     if request.method == "GET":
-        return render(request, 'dashBoard.html', {"user" : currentUser["User"]})
+        username = request.session.get('user', {}).get('type')
+        return render(request, 'dashBoard.html', {"user" : username})
     
 def viewLicense(request):
     licenseList = getAllLicenses()
@@ -130,7 +131,7 @@ def storeNote(request, key_id):
     if request.method == "POST":
         reportText = request.POST.get("reportText")
         insertNote(reportText, key_id)
-    return HttpResponse("success")
+    return redirect("revokeLicense")
 
 def revokeRequests(request):
     licenseList = getAllLicenses()
@@ -149,6 +150,28 @@ def revokeApproval(request, key_id):
         interact = key_id
         info = ReportFile.objects.filter(route=f"Reports/{key_id}/").latest('uploaded_at')
         return render(request, "revokeApproval.html", {"info" : info})
+    
+def viewFormManager(request):
+    licenses = getAllLicenses()
+    return render(request, "viewFormManager.html", {"licenses" : licenses})
+
+def viewValidated(request):
+    licenses = getAllLicenses()
+    return render(request, "viewValidated.html", {"licenses" : licenses})
+
+def applicationApproval(request):
+    if request.method == 'POST':
+        operation = request.POST.get("operation")
+        id = request.POST.get("id")
+        if operation == "0":
+            updateLicense(id, "Active")
+        elif operation == "-1":
+            updateLicense(id, "Rejected")
+        return redirect("viewValidated")
+    id = request.GET.get("id")
+    text = getAdminReport(id)
+    info = getLicenseInfo(id)
+    return render(request, "applicationApproval.html", {"text" : text, "info" : info})
 
 # Long
 def apply_license(request):
@@ -199,19 +222,31 @@ def logout_view(request):
 def check_status(request):
     if request.method == "POST":
         return redirect("renew_license")  # Directly redirect to the next page
-    return render(request, "check_status.html")
+    licenses = getAllLicenses()
+    username = request.session.get('user', {}).get('username')
+    return render(request, "check_status.html", {"licenses" : licenses, "username" : username})
 
 def renew_license(request):
     if request.method == "POST":
         return redirect("payment")  # Directly redirect to the next page
-    return render(request, "renew_license.html")
+    licenses = getAllLicenses()
+    username = request.session.get('user', {}).get('username')
+    return render(request, "renew_license.html", {"licenses" : licenses, "username" : username})
 
 def payment(request):
+    global intract
     if request.method == "POST":
         return redirect("pay_success")  # Directly redirect to the next page
-    return render(request, 'payment.html')
+    licenses = getAllLicenses()
+    username = request.session.get('user', {}).get('username')
+    return render(request, 'payment.html', {"licenses" : licenses, "username" : username})
 
 def pay_success(request):
+    licenses = getAllLicenses()
+    username = request.session.get('user', {}).get('username')
+    for license in licenses:
+        if license.owner == username and license.status == "Expired":
+            updateLicense(license.id, "Active")
     return render(request, 'pay_success.html')
 
 def dataAdminMenu(request):
@@ -220,27 +255,48 @@ def dataAdminMenu(request):
     return redirect('login')  # Redirect to login if no user is logged in
 
 def view_form(request):
+    if request.method == "POST":
+        id = request.POST.get("id")
+        if request.POST.get("valid") == "valid":
+            updateLicense(id, "Valid")
+        else:
+            updateLicense(id, "Invalid")
     licenseList = getAllLicenses()
     return render(request, "view_form.html", {"licenseList" : licenseList})  # Render the form page
 
 def checking_page(request):
     if request.method == "POST":
         return redirect("checking_detail")  # Directly redirect to the next page
-    return render(request, 'checking_page.html')
+    licenseList = getAllLicenses()
+    return render(request, 'checking_page.html', {"licenseList" : licenseList})
 
 def checking_detail(request):
     if request.method == "POST":
+        text = request.POST.get("comments", "No data")
+        c1 = request.POST.get("criteria1", 'No')
+        c2 = request.POST.get("criteria2", 'No')
+        c3 = request.POST.get("criteria3", 'No')
+        c4 = request.POST.get("criteria4", 'No')
+        id = request.POST.get("id")
+        insertAdmin(text, c1, c2, c3, c4, id)
         return redirect("submit_checking")  # Directly redirect to the next page
-    return render(request, "checking_detail.html")  # Render the form page
+    id = request.GET.get("id")
+    files = ReportFile.objects.filter(route=f"Documents/{id}/").order_by('-uploaded_at')[:4]
+    return render(request, "checking_detail.html", {"files" : files, "id" : id})  # Render the form page)
 
 def submit_checking(request):
     return render(request, 'submit_checking.html')
 
 def fee_status(request):
-    return render(request, 'fee_status.html')
+    if request.method == "POST":
+        updateLicense(request.POST.get("id"), "Bar")
+        redirect("fee_status")
+    licenses = getAllLicenses()
+    return render(request, 'fee_status.html', {"licenses" : licenses})
 
 def view_history(request):
-    return render(request, 'view_history.html')
+    licenses = getAllLicenses()
+    return render(request, 'view_history.html', {"licenses" : licenses})
 # tmp
 def file_upload_view(request):
     if request.method == 'POST':

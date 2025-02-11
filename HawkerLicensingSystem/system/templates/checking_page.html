@@ -112,24 +112,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>8467346347</td>
-                    <td>Poh Gian Cha</td>
-                    <td>
-                        <form action="{% url 'checking_detail' %}" method="get"> <!-- Adjust the URL as needed -->
-                            <button type="submit">Check</button>
-                        </form>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2386235209</td>
-                    <td>Muthumathir</td>
-                    <td>
-                        <form action="{% url 'checking_detail' %}" method="get"> <!-- Adjust the URL as needed -->
-                            <button type="submit">Check</button>
-                        </form>
-                    </td>
-                </tr>
+                {% for license in licenseList %}
+                    {% if license.status == "Apply" %}
+                        <tr>
+                            <td>{{license.id}}</td>
+                            <td>{{license.owner}}</td>
+                            <td>
+                                <form action="{% url 'checking_detail' %}" method="get"> <!-- Adjust the URL as needed -->
+                                    <input type="hidden" name="id" value="{{license.id}}">
+                                    <button type="submit">Check</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
             </tbody>
         </table>
 

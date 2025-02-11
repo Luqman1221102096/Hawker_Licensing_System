@@ -79,35 +79,44 @@
     <div class="form-container">
         <h2 class="form-title">Inspection Details</h2>
 
-        <form action="{% url 'submit_checking' %}" method="post"> <!-- Adjust the URL as needed -->
+        <form id="dmin" method="post" action="{% url 'checking_detail' %}" > <!-- Adjust the URL as needed -->
             {% csrf_token %}
             <div class="checkbox-group">
-                <label>
-                    <input type="checkbox" name="criteria1"> Proof of identity
-                    <a href="{% static 'pdfs/criterion.pdf' %}" class="pdf-link" target="_blank">Inspect PDF</a>
-                </label>
-                <label>
-                    <input type="checkbox" name="criteria2"> Business Registration Certificate(if applicable)
-                    <a href="{% static 'pdfs/criterion.pdf' %}" class="pdf-link" target="_blank">Inspect PDF</a>
-                </label>
-                <label>
-                    <input type="checkbox" name="criteria3">Health Certificate
-                    <a href="{% static 'pdfs/criterion.pdf' %}" class="pdf-link" target="_blank">Inspect PDF</a>
-                </label>
-                <label>
-                    <input type="checkbox" name="criteria4"> Location/Zoning Point
-                    <a href="{% static 'pdfs/criterion.pdf' %}" class="pdf-link" target="_blank">Inspect PDF</a>
-                </label>
+                {% for file in files %}
+                    {% if file.name == "Identity Proof" %}
+                        <label>
+                            <input type="checkbox" name="criteria1" value="yes"> Proof of identity
+                            <a href="{{ file.file.url }}" class="pdf-link" target="_blank">Inspect PDF</a>
+                        </label>
+                    {%elif file.name == "Business Registration"%}
+                        <label>
+                            <input type="checkbox" name="criteria2" value="yes"> Business Registration Certificate(if applicable)
+                            <a href="{{ file.file.url }}" class="pdf-link" target="_blank">Inspect PDF</a>
+                        </label>
+                    {%elif file.name == "Health Certificate"%}
+                        <label>
+                            <input type="checkbox" name="criteria3" value="yes">Health Certificate
+                            <a href="{{ file.file.url }}" class="pdf-link" target="_blank">Inspect PDF</a>
+                        </label>
+                    {%elif file.name == "Location Permit"%}
+                        <label>
+                            <input type="checkbox" name="criteria4" value="yes"> Location/Zoning Point
+                            <a href="{{ file.file.url }}" class="pdf-link" target="_blank">Inspect PDF</a>
+                        </label>
+                    {% endif %}
+                {% endfor %}
             </div>
         
-            <textarea class="comment-box" name="comments" placeholder="Enter your comments here..."></textarea>
+            <textarea type="text" class="comment-box" name="comments" placeholder="Enter your comments here..."></textarea>
+            <input type="hidden" name="id" value="{{id}}">
         </form>
             <div class="button-container">
                 <form action="{% url 'checking_page' %}" method="get"> <!-- Adjust the URL as needed -->
                     <button type="submit">Back</button>
                 </form>
-                <form action="{% url 'submit_checking' %}" method="get"> <!-- Adjust the URL as needed -->
-                    <button type="submit">Submit</button>
+                <form action="{% url 'checking_detail' %}"  method="post"> <!-- Adjust the URL as needed -->
+                    {% csrf_token %}
+                    <button type="submit" form="dmin"> Submit</button>
                 </form>
             </div>
         

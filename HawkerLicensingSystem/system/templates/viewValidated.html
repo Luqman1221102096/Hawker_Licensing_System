@@ -95,35 +95,44 @@
         <h1>Hawker Licensing System</h1>
     </header>
 
-    <div class="form-container" style="margin-bottom:50px">
-        <h2 class="form-title">View History Page</h2>
+    <div class="form-container" style="margin-bottom: 50px">
+        <h2 class="form-title">All Validated Forms</h2>
 
         <div class="search-container">
-                <input type="text" name="search" placeholder="Search by Hawker Name or License ID" required>
+                <input type="text" name="search" placeholder="Search by Hawker Name or License Number" required>
                 <button type="submit">Search</button>
         </div>
 
         <table>
             <thead>
                 <tr>
-                    <th>License ID</th>
-                    <th>Name</th>
-                    <th>History</th>
+                    <th>Hawker Name</th>
+                    <th>Identification Number</th>
+                    <th>Submission Date</th>
+                    <th>Aprroval</th>
                 </tr>
             </thead>
             <tbody>
                 {% for license in licenses %}
+                    {% if license.status == "Valid" %}
                         <tr>
-                            <td>{{license.id}}</td>
                             <td>{{license.owner}}</td>
-                            <td>{{license.date}} - Present</td>
+                            <td>{{license.id}}</td>
+                            <td>{{license.date}}</td>
+                            <td>
+                                <form action="{% url 'applicationApproval' %}" method="get"> <!-- Adjust the URL as needed -->
+                                    <input type="hidden" name="id" value="{{license.id}}">
+                                    <button type="submit">Approve</button>
+                                </form>
+                            </td>
                         </tr>
+                    {%endif%}
                 {% endfor %}
             </tbody>
         </table>
 
         <div class="button-container"> 
-            <form action="{% url 'dataAdminMenu' %}" method="get"> <!-- Adjust the URL as needed -->
+            <form action="{% url 'dashBoard' %}" method="get"> <!-- Adjust the URL as needed -->
                 <button type="submit">Back</button>
             </form>
         </div>

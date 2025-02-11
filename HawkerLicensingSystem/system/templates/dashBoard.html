@@ -24,9 +24,8 @@ Data Admin DashBoard
     <h2 style="text-align: center; text-decoration: underline; font-weight: bold;">
     Manager DashBoard
     </h2>
-    <button class="dashBoardButton" onclick="window.location.href='{% url 'viewLicense' %}';" style="font-size: 25px;">View All Forms</button>
-    <button class="dashBoardButton" onclick="window.location.href='{% url 'revokeLicense' %}';" style="font-size: 20px;">View Validated Forms</button>
-    <button class="dashBoardButton" onclick="window.location.href='{% url 'viewLicense' %}';">Reports</button>
+    <button class="dashBoardButton" onclick="window.location.href='{% url 'viewFormManager' %}';" style="font-size: 25px;">View All Forms</button>
+    <button class="dashBoardButton" onclick="window.location.href='{% url 'viewValidated' %}';" style="font-size: 20px;">View Validated Forms and Reports</button>
     <button class="dashBoardButton" onclick="window.location.href='{% url 'revokeRequests' %}';" style="font-size: 20px;">License Revocation Approval</button>
     <button class="blueNav" onclick="window.location.href='{% url 'home' %}';">Sign out</button>
 </div>

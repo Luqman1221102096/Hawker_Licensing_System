@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block content %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,49 +88,52 @@
         button:hover {
             background-color: #0056b3;
         }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Hawker Licensing System</h1>
-    </header>
-
-    <div class="form-container" style="margin-bottom:50px">
-        <h2 class="form-title">View History Page</h2>
-
-        <div class="search-container">
-                <input type="text" name="search" placeholder="Search by Hawker Name or License ID" required>
-                <button type="submit">Search</button>
-        </div>
-
+    </style>   
+<div class="form-container">
+    <h2 style="text-align: center; text-decoration: underline; font-weight: bold;">
+        Application Aprroval
+    </h2>
+    <h3 style="margin-bottom: 0px">Form Data</h3>
+    <div>
         <table>
             <thead>
                 <tr>
-                    <th>License ID</th>
-                    <th>Name</th>
-                    <th>History</th>
+                    <th>Hawker Name</th>
+                    <th>Identification Number</th>
+                    <th>Submission Date</th>
+                    <th>Location</th>
                 </tr>
             </thead>
             <tbody>
-                {% for license in licenses %}
-                        <tr>
-                            <td>{{license.id}}</td>
-                            <td>{{license.owner}}</td>
-                            <td>{{license.date}} - Present</td>
-                        </tr>
-                {% endfor %}
+                    <tr>
+                        <td>{{info.owner}}</td>
+                        <td>{{info.id}}</td>
+                        <td>{{info.date}}</td>
+                        <td>{{info.location}}</td>
+                    </tr>
             </tbody>
         </table>
-
-        <div class="button-container"> 
-            <form action="{% url 'dataAdminMenu' %}" method="get"> <!-- Adjust the URL as needed -->
-                <button type="submit">Back</button>
-            </form>
-        </div>
     </div>
-
-    <footer>
-        <p>&copy; 2025 Luqman, Law, Long, Danysh</p>
-    </footer>
-</body>
-</html>
+    <h3 style="margin-bottom: 0px">Report</h3>
+    <div>
+        <p>{{text}}</p>
+    </div>
+    <div class="button-container" style="display: flex; flex-direction: row; gap:35%">
+        <form action="{% url 'applicationApproval' %}" method="post"> <!-- Adjust the URL as needed -->
+            {% csrf_token %}
+            <input type="hidden" name="operation" value="0">
+            <input type="hidden" name="id" value="{{info.id}}">
+            <button class="blueNav" type="submit">Approve</button>
+        </form>
+        <form action="{% url 'applicationApproval' %}" method="post"> <!-- Adjust the URL as needed -->
+            {% csrf_token %}
+            <input type="hidden" name="operation" value="-1">
+            <input type="hidden" name="id" value="{{info.id}}">
+            <button class="blueNav" type="submit">Disapprove</button>
+        </form>
+    </div>
+    <div class="button-container" style="margin-top: 20px">
+        <button type="button" onclick="window.history.back();">Back</button>
+    </div>
+</div>
+{% endblock content %}

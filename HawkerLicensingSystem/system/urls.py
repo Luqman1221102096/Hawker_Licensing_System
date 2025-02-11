@@ -19,6 +19,9 @@ urlpatterns = [
     path('revokeApproval/<str:key_id>/', views.revokeApproval, name='revokeApproval'),
     path('upload/', views.file_upload_view, name='file_upload'),
     path('files/', views.file_list_view, name='file_list'),
+    path('viewFormManager/', views.viewFormManager, name='viewFormManager'),
+    path('viewValidated/', views.viewValidated, name='viewValidated'),
+    path('applicationApproval/', views.applicationApproval, name='applicationApproval'),
     #l
     path("hawker-menu/", views.hawker_menu, name="hawker_menu"),
     path("apply/", views.apply_license, name="apply_license"),

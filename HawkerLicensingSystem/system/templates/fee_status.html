@@ -113,27 +113,22 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>8467346347</td>
-                    <td>Poh Gian Cha</td>
-                    <td>Expired</td>
-                    <td>
-                            <button type="submit">Bar</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2386235209</td>
-                    <td>Muthumathir</td>
-                    <td>Active</td>
-                </tr>
-                <tr>
-                    <td>1723519835</td>
-                    <td>Kobe Bryant</td>
-                    <td>Expired</td>
-                    <td>
-                            <button type="submit">Bar</button>
-                    </td>
-                </tr>
+                {% for license in licenses %}
+                    {% if license.status == "Expired" %}
+                        <tr>
+                            <td>{{license.id}}</td>
+                            <td>{{license.owner}}</td>
+                            <td>{{license.status}}</td>
+                            <td>
+                                <form action="{% url 'fee_status' %}"  method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="{{license.id}}">
+                                    <button type="submit">Bar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
             </tbody>
         </table>
 
