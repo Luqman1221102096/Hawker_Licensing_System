@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hawker Licensing System</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+    <style>
+        /* Centered container for the form */
+        .form-container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        /* Center the title */
+        .form-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* Create a two-column layout */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two equal columns */
+            gap: 15px; /* Space between columns */
+        }
+
+        /* Make labels and inputs span full width inside grid */
+        .form-grid label {
+            display: inline-block;  /* Ensures labels align properly */
+            width: 180px;  /* Adjust width as needed */
+            font-size: 18px;  /* Increases font size */
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+
+        .form-grid input, 
+        .form-grid select {
+            width: 100%;  /* Make input fields take full width */
+            max-width: 350px; /* Set a maximum width */
+            padding: 10px;  /* Increase padding for better height */
+            font-size: 16px;  /* Adjust text size inside inputs */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Style the button container */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            font-size: 18px;
+            padding: 12px 24px;
+            min-width: 150px;  /* Ensures button width is large enough */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hawker Licensing System</h1>
+    </header>
+
+    <main style="margin-bottom: 100px">
+        <div class="form-container">
+            <div class="form-title">Apply for License</div>
+            <form id="apply" method="post" action="{% url 'apply_license' %}">
+                {% csrf_token %}
+
+                <!-- Form Grid (Two Columns) -->
+                <div class="form-grid">
+                    <div>
+                        <label for="name">Full Name:</label>
+                        <input type="text" id="name" name="name" required>
+
+                        <label for="id_number">Identification Number:</label>
+                        <input type="text" id="id_number" name="id_number">
+
+                        <label for="contact">Contact Information:</label>
+                        <input type="tel" id="contact" name="contact">
+
+                        <label for="business_name">Business Name:</label>
+                        <input type="text" id="business_name" name="business_name">
+
+                        <label for="stall_location">Stall Location:</label>
+                        <input type="text" id="stall_location" name="stall_location" required>
+                    </div>
+
+                    <div>
+                        <label for="business_type">Type of Business:</label>
+                        <select id="business_type" name="business_type">
+                            <option value="Food Stall">Food Stall</option>
+                            <option value="Retail">Retail</option>
+                            <option value="Street Vendor">Street Vendor</option>
+                            <option value="Others">Others</option>
+                        </select>
+
+                        <label for="license_type">License Type:</label>
+                        <select id="license_type" name="license_type">
+                            <option value="New License">New License</option>
+                            <option value="Renewal">Renewal</option>
+                        </select>
+
+                        <label for="start_date">Start Date for License Validity:</label>
+                        <input type="date" id="start_date" name="start_date" required>
+
+                        <label for="previous_license">Previous License Number (if renewing):</label>
+                        <input type="text" id="previous_license" name="previous_license">
+
+                        <label for="other_permits">Other Permits (if applicable, e.g., Fire Safety):</label>
+                        <input type="text" id="other_permits" name="other_permits">
+                    </div>
+                </div>
+            </form>
+
+            <!-- Button Container -->
+            <div class="button-container">
+                <!-- Back Button (Bottom Left) -->
+                <form action="{% url 'hawker_menu' %}" method="get">
+                    <button type="submit" class="blue-button">Back</button>
+                </form>
+
+                <!-- Continue Button (Bottom Right) -->
+                <form action="{% url 'document_verification' %}" method="get">
+                    <button type="submit" form="apply" class="blue-button">Continue</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Luqman, Law, Long, Danysh</p>
+    </footer>
+</body>
+</html>

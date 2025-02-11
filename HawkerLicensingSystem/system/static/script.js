@@ -16,13 +16,19 @@ function login(event, form) {
         method: "POST",
         body: formData,
     })
-    .then(response => response.text())  
+    .then(response => response.json())  
     .then(data => {
-        if (data.includes("success")) { 
+        if (data.status === "success" && (data.menu === "inspectorMenu" ||data.menu === "managerMenu")) { 
             window.location.href = "/dashBoard/";  // Redirect if login is successful
-        } else {
+        } else if (data.status === "success" && (data.menu === "dataAdminMenu" ||data.menu === "hawkerMenu")){
+            if(data.menu === "dataAdminMenu"){
+                window.location.href = "/dataadmin-menu/"
+            }else{
+                window.location.href = "/hawker-menu/"
+            }
+        }else{
             document.getElementById("loginResponse").innerHTML = 
-                `<span style="color: red;">${data}</span>`;
+                `<span style="color: red;">${data.error}</span>`;
         }
     })
     .catch(error => console.error("Error:", error));
@@ -89,3 +95,29 @@ function AprroveRevoke(button) {
     })
     .catch(error => console.error('Error:', error));
 } 
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+const csrftoken = getCookie('csrftoken');
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+            // Only send the token to relative URLs i.e. locally.
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});

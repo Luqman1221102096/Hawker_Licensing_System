@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hawker Licensing System</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+        }
+
+        .form-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #fafafa; /* Darker text for better readability */
+        }
+
+        .success-message {
+            font-size: 18px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #0e0e0e; /* Slightly lighter text */
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 18px;
+            background-color: #007BFF; /* Bootstrap primary color */
+            color: white; /* White text */
+            border: none; /* Remove default border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth transition */
+            flex: 1; /* Make buttons take equal space */
+            margin: 0 10px; /* Space between buttons */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="form-title">Hawker Licensing System</h1>
+    </header>
+
+    <div class="form-container">
+        <p class="success-message">You have submit this application to manager for approval.</p>
+
+        <div class="button-container">
+            <!-- Back Button -->
+            <button type="button" onclick="window.history.back();">Back</button>
+            <!-- Back to Menu Button -->
+            <button type="button" onclick="window.location.href='/dataadmin-menu/'">Back to Menu</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Luqman, Law, Long, Danysh</p>
+    </footer>
+</body>
+</html>

@@ -4,6 +4,7 @@ import os
 from django.conf import settings
 from dataclasses import dataclass
 from django.core.files.storage import FileSystemStorage
+import random
 # Struct for license information
 @dataclass
 class licenseInfo:
@@ -25,6 +26,20 @@ class ReportFile(models.Model):
     def __str__(self):
         return self.name
 
+class DocumentFile(models.Model):
+    name = models.CharField(max_length=255, default="Untitled")
+    name2 = models.CharField(max_length=255, default="Untitled")
+    name3 = models.CharField(max_length=255, default="Untitled")
+    name4 = models.CharField(max_length=255, default="Untitled")
+    route = models.CharField(max_length=255, default='Reports/')
+    file = models.FileField(upload_to=report_upload_path)
+    file2 = models.FileField(upload_to=report_upload_path)
+    file3 = models.FileField(upload_to=report_upload_path)
+    file4 = models.FileField(upload_to=report_upload_path)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
 # Create your models here.
 def getHawkers():
     hawkers = {}
@@ -134,3 +149,10 @@ def updateLicense(key_id, newStatus):
 def getReport(key_id):
     if os.path.exists(f"Reports/{key_id}"):
         f = open(os.path.join(settings.BASE_DIR, f"Reports/{key_id}/report.txt"), "r")
+
+def addLicense(owner, location, date):
+    num = random.randint(1, 100000)
+    f = open(os.path.join(settings.BASE_DIR, "licenseList.txt"), "a")
+    f.write(f"{num}:{owner}:Apply:{date}:{location}\n")
+    f.close()
+    return num

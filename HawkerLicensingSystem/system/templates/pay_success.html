@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}?v={{ timestamp }}">
+    <script src="{% static 'script.js' %}"></script>
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+        }
+
+        .form-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333; /* Darker text for better readability */
+        }
+
+        .success-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #28a745; /* Green color for success */
+        }
+
+        .details {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center; /* Center the buttons */
+            margin-top: 20px; /* Space above button group */
+            gap: 20px; /* Space between buttons */
+        }
+
+        button {
+            padding: 12px 24px; /* Increased padding for better click area */
+            font-size: 18px;
+            background-color: #007BFF; /* Button color */
+            color: white; /* White text */
+            border: none; /* Remove default border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth transition */
+            min-width: 200px; /* Minimum width for buttons */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hawker Licensing System</h1>
+    </header>
+
+    <div class="form-container">
+        <h2 class="form-title">Payment Successful</h2>
+        <p class="success-message">Thank you! Your payment has been processed successfully.</p>
+
+        <div class="details">
+            <p><strong>License Number:</strong> 123456</p>
+            <p><strong>Renewal Duration:</strong> 2 Years</p>
+            <p><strong>Amount Paid:</strong> RM1000</p>
+            <p><strong>Payment Method:</strong> Credit Card</p>
+            <p><strong>Transaction ID:</strong> ABC123XYZ</p>
+        </div>
+
+        <div class="button-container">
+            <button type="button" onclick="window.location.href='/hawker-menu/'">Back to Menu</button>
+            <button type="button" onclick="window.location.href='/status/'">Check License Status</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Luqman, Law, Long, Danysh</p>
+    </footer>
+</body>
+</html>
