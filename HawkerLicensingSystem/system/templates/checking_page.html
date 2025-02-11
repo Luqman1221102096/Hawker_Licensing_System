@@ -113,7 +113,7 @@
             </thead>
             <tbody>
                 {% for license in licenseList %}
-                    {% if license.status == "Apply" %}
+                    {% if license.status == "Apply" or license.status == "Valid"%}
                         <tr>
                             <td>{{license.id}}</td>
                             <td>{{license.owner}}</td>
