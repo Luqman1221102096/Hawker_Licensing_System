@@ -33,10 +33,14 @@ def register(request):
     username = request.POST.get("username")
     password = request.POST.get("password")
     repassword = request.POST.get("rePassword")
+
     if password != repassword:
-        return HttpResponse("Password and re-enter password do not match")
+        return JsonResponse({"status": "error", "message": "Password and re-enter password do not match"})
+
     registerHawker(username, password)
-    return HttpResponse("success")
+    request.session['user'] = {'type': 'Hawker', 'username': username}
+
+    return JsonResponse({"status": "success", "redirect": "/hawker-menu/"})
 
 def read_hawker_credentials():
     hawker_credentials = {}
@@ -297,22 +301,3 @@ def fee_status(request):
 def view_history(request):
     licenses = getAllLicenses()
     return render(request, 'view_history.html', {"licenses" : licenses})
-# tmp
-def file_upload_view(request):
-    if request.method == 'POST':
-        form = ReportFileForm(request.POST, request.FILES)
-        print(request.POST)
-        print(request.FILES)
-        if form.is_valid():
-            report = form.save(commit=False)  # Don't save yet
-            report.route = "Reports/1/"  # Pass a dynamic value
-            report.save()  # Now save
-            return redirect('file_list')
-    else:
-        form = ReportFileForm()
-
-    return render(request, 'upload.html', {'form': form})
-
-def file_list_view(request):
-    files = ReportFile.objects.all()
-    return render(request, 'file_list.html', {'files': files})

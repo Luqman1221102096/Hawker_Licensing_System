@@ -33,26 +33,28 @@ function login(event, form) {
     })
     .catch(error => console.error("Error:", error));
 }
+
 function register(event, form) {
-    event.preventDefault();  // Prevent form from reloading the page
+    event.preventDefault();
 
     let formData = new FormData(form);
 
-    fetch(form.action, {  // Use the form action URL
+    fetch(form.action, {
         method: "POST",
         body: formData,
     })
-    .then(response => response.text())  
+    .then(response => response.json())  // Expect JSON now
     .then(data => {
-        if (data.includes("success")) { 
-            window.location.href = "/dashBoard/";  // Redirect if login is successful
+        if (data.status === "success") {
+            window.location.href = data.redirect;  // Redirect from JSON response
         } else {
             document.getElementById("registerResponse").innerHTML = 
-                `<span style="color: red;">${data}</span>`;
+                `<span style="color: red;">${data.message}</span>`;
         }
     })
     .catch(error => console.error("Error:", error));
-}  
+}
+ 
 function report(event, form) {
     event.preventDefault();  // Prevent form from reloading the page
 
